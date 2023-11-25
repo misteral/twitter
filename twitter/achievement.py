@@ -40,6 +40,9 @@ def update(frame):
     else:
         plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
 
+# Define current_date at the module level
+current_date = datetime.now().strftime("%Y-%m-%d")
+
 # Example usage:
 if __name__ == '__main__':
     sample_achievements = {
