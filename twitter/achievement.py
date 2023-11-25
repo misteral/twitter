@@ -35,7 +35,7 @@ def update(frame):
         plt.xticks(rotation=45)
         plt.tight_layout()
         # Set the x and y axis limits
-        plt.xlim(min(dates) - timedelta(days=1), max(dates) + timedelta(days=1))
+        plt.xlim(np.datetime64(min(dates), 'D') - np.timedelta64(1, 'D'), np.datetime64(max(dates), 'D') + np.timedelta64(1, 'D'))
         plt.ylim(min(user_counts), max(user_counts))
     else:
         plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
