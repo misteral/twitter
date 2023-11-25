@@ -16,9 +16,9 @@ def make_density_video(filename='output.mp4', fps=30, duration=5):
 
     def make_frame(t):
         fig, ax = plt.subplots()
-        sns.kdeplot(data, ax=ax, bw_adjust=t/duration + 0.1)
+        ax.hist(data, bins=30, density=True, alpha=0.75)
         ax.set_xlim(data.min(), data.max())
-        ax.set_ylim(0, None)
+        # ax.set_ylim(0, None) # This line may not be necessary with hist, but can be adjusted if needed.
         plt.close(fig)
         return mplfig_to_npimage(fig)
 
