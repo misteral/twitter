@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     # Convert string dates to datetime64 for proper sorting and plotting
     dates = np.array(sorted(sample_achievements.keys()), dtype='datetime64')
-    user_counts = np.array([sample_achievements[date] for date in dates])
+    user_counts = np.array([sample_achievements[str(np.datetime_as_string(date, unit='D'))] for date in dates])
 
     fig, ax = plt.subplots(figsize=(10, 5))
     ani = FuncAnimation(fig, update, frames=len(dates), repeat=False)
