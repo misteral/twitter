@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 from datetime import datetime
+import numpy as np
 
 def visualize_achievement(user_achievements):
     """
@@ -23,6 +25,16 @@ def visualize_achievement(user_achievements):
     plt.tight_layout()
     plt.show()
 
+# Function to update the plot for each frame
+def update(frame):
+    plt.cla()  # Clear the current axes
+    plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
+    plt.xlabel('Date')
+    plt.ylabel('Number of Users')
+    plt.title(f'Twitter Achievements Visualization - {current_date}')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
 # Example usage:
 if __name__ == '__main__':
     sample_achievements = {
@@ -33,4 +45,11 @@ if __name__ == '__main__':
         '2023-01-05': 8,
         '2023-01-06': 17
     }
-    visualize_achievement(sample_achievements)
+    dates = np.array(list(sample_achievements.keys()), dtype='datetime64')
+    user_counts = list(sample_achievements.values())
+    current_date = datetime.now().strftime("%Y-%m-%d")
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ani = FuncAnimation(fig, update, frames=len(dates), repeat=False)
+    ani.save('twitter_achievement.mp4', writer='ffmpeg', fps=1)
+    plt.show()
