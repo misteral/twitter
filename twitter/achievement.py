@@ -27,13 +27,18 @@ def visualize_achievement(user_achievements):
 
 # Function to update the plot for each frame
 def update(frame):
-    plt.cla()  # Clear the current axes
-    plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
-    plt.xlabel('Date')
-    plt.ylabel('Number of Users')
-    plt.title(f'Twitter Achievements Visualization - {current_date}')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
+    if frame == 0:
+        plt.plot([], [], color='skyblue', marker='o')  # Initialize an empty plot
+        plt.xlabel('Date')
+        plt.ylabel('Number of Users')
+        plt.title(f'Twitter Achievements Visualization - {current_date}')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        # Set the x and y axis limits
+        plt.xlim(min(dates), max(dates))
+        plt.ylim(min(user_counts), max(user_counts))
+    else:
+        plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
 
 # Example usage:
 if __name__ == '__main__':
