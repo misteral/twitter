@@ -42,7 +42,8 @@ def make_density_video(filename='output.mp4', fps=10, duration=5):
         fig, ax = plt.subplots()
         # Convert interpolated dates back to datetime for plotting
         plot_dates = mdates.num2date(interpolated_dates[:frame_index])
-        ax.plot(plot_dates, interpolated_data[frame_index, :frame_index], marker='', color='purple', linewidth=2)
+        # Ensure that the length of plot_dates and the slice of interpolated_data match
+        ax.plot(plot_dates, interpolated_data[:frame_index + 1, frame_index], marker='', color='purple', linewidth=2)
         # Print data for the current frame
         print(f"Frame {frame_index}: {interpolated_data[frame_index, :frame_index]}")
         ax.xaxis_date()  # Interpret the x-axis values as dates
