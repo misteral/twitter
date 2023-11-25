@@ -25,17 +25,18 @@ def make_density_video(filename='output.mp4', fps=30, duration=5):
     # Create an array to store interpolated data
     interpolated_data = np.zeros((num_frames, len(data)))
 
-    # Interpolate data for each frame
+    # Interpolate data for the graph that changes from left to right
     for i in range(1, num_frames):
         progress = i / num_frames
-        interpolated_data[i] = data * progress
+        interpolated_data[i, :int(progress * len(data))] = data[:int(progress * len(data))]
 
     def make_frame(t):
         frame_index = int(t * fps)
         fig, ax = plt.subplots()
-        ax.bar(dates, interpolated_data[frame_index], width=0.8, align='center', alpha=0.75)
+        ax.plot(dates[:frame_index], interpolated_data[frame_index, :frame_index], marker='', color='purple', linewidth=2)
         ax.xaxis_date()  # Interpret the x-axis values as dates
         fig.autofmt_xdate()  # Format the dates on the x-axis nicely
+        ax.set_xlim(dates[0], dates[-1])  # Set x-axis limit to show all dates
         ax.set_ylim(0, max(data) + 10)  # Set y-axis limit
         plt.close(fig)
         return mplfig_to_npimage(fig)
