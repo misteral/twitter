@@ -1,9 +1,17 @@
+import json
 import seaborn as sns
 import matplotlib.pyplot as plt
 from moviepy.editor import VideoClip
 import numpy as np
 
-def make_density_video(data, filename='output.mp4', fps=30, duration=5):
+# Load data from JSON file
+with open('sample_achievements.json', 'r') as file:
+    sample_data = json.load(file)
+achievements_data = np.array(list(sample_data.values()))
+
+def make_density_video(filename='output.mp4', fps=30, duration=5):
+    # Use the loaded data for visualization
+    data = achievements_data
     sns.set(style="whitegrid")
 
     def make_frame(t):
