@@ -1,7 +1,7 @@
 import json
 import seaborn as sns
 import matplotlib.pyplot as plt
-from moviepy.editor import VideoClip
+from moviepy.editor import VideoClip, mplfig_to_npimage
 import numpy as np
 
 # Load data from JSON file
