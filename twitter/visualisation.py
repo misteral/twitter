@@ -24,3 +24,5 @@ def make_density_video(filename='output.mp4', fps=30, duration=5):
 
     animation = VideoClip(make_frame, duration=duration)
     animation.write_videofile(filename, fps=fps)
+if __name__ == "__main__":
+    make_density_video()
