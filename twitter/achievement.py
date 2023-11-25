@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from datetime import datetime, timedelta
 import numpy as np
+import seaborn as sns
 
 def visualize_achievement(user_achievements):
     """
@@ -28,9 +29,9 @@ def visualize_achievement(user_achievements):
 # Function to update the plot for each frame
 def update(frame):
     if frame == 0:
-        plt.plot([], [], color='skyblue', marker='o')  # Initialize an empty plot
-        plt.xlabel('Date')
-        plt.ylabel('Number of Users')
+        # plt.plot([], [], color='skyblue', marker='o')  # Initialize an empty plot
+        # plt.xlabel('Date')
+        # plt.ylabel('Number of Users')
         plt.title(f'Twitter Achievements Visualization - {current_date}')
         plt.xticks(rotation=45)
         plt.tight_layout()
@@ -38,6 +39,7 @@ def update(frame):
         plt.xlim(np.datetime64(min(dates), 'D') - np.timedelta64(1, 'D'), np.datetime64(max(dates), 'D') + np.timedelta64(1, 'D'))
         plt.ylim(min(user_counts), max(user_counts))
     else:
+        # sns.kdeplot(user_counts[:frame], shade=True, color="dodgerblue", label="Cyl=6", alpha=.7)
         plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
 
 # Define current_date at the module level
@@ -55,12 +57,13 @@ if __name__ == '__main__':
         '2023-11-15': 123,
         '2023-11-12': 99,
     }
-
+    sns.set_style("white")
     # Convert string dates to datetime64 for proper sorting and plotting
     dates = np.array(sorted(sample_achievements.keys()), dtype='datetime64')
     user_counts = np.array([sample_achievements[str(np.datetime_as_string(date, unit='D'))] for date in dates])
 
     fig, ax = plt.subplots(figsize=(10, 5))
+
     ani = FuncAnimation(fig, update, frames=len(dates), repeat=False)
     ani.save('twitter_achievement.mp4', writer='ffmpeg', fps=1)
     plt.show()
