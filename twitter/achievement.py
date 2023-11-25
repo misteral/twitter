@@ -22,4 +22,6 @@ def visualize_achievement(user_achievements):
     plt.show()
 
 # Example usage:
-# visualize_achievement({'user1': 10, 'user2': 15, 'user3': 5})
+if __name__ == '__main__':
+    sample_achievements = {'user1': 10, 'user2': 15, 'user3': 5}
+    visualize_achievement(sample_achievements)
