@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 def visualize_achievement(user_achievements):
     """
@@ -16,7 +17,8 @@ def visualize_achievement(user_achievements):
     plt.bar(users, achievements, color='skyblue')
     plt.xlabel('Users')
     plt.ylabel('Achievements')
-    plt.title('Twitter Achievements Visualization')
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    plt.title(f'Twitter Achievements Visualization - {current_date}')
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
