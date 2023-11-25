@@ -38,13 +38,16 @@ def update(frame):
 # Example usage:
 if __name__ == '__main__':
     sample_achievements = {
-        '2023-01-01': 10,
-        '2023-01-02': 15,
-        '2023-01-03': 5,
-        '2023-01-04': 12,
-        '2023-01-05': 8,
-        '2023-01-06': 17
+        '2023-11-25': 405,
+        '2023-11-23': 386,
+        '2023-11-22': 374,
+        '2023-11-21': 240,
+        '2023-11-20': 186,
+        '2023-11-17': 150,
+        '2023-11-15': 123,
+        '2023-11-12': 99,
     }
+
     dates = np.array(list(sample_achievements.keys()), dtype='datetime64')
     user_counts = list(sample_achievements.values())
     current_date = datetime.now().strftime("%Y-%m-%d")
