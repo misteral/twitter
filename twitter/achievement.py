@@ -53,8 +53,10 @@ if __name__ == '__main__':
         '2023-11-12': 99,
     }
 
-    dates = np.array(list(sample_achievements.keys()), dtype='datetime64')
-    user_counts = list(sample_achievements.values())
+    # Sort the dates and user_counts in ascending order of dates
+    sorted_indices = np.argsort(np.array(list(sample_achievements.keys()), dtype='datetime64'))
+    dates = np.array(list(sample_achievements.keys()), dtype='datetime64')[sorted_indices]
+    user_counts = np.array(list(sample_achievements.values()))[sorted_indices]
     current_date = datetime.now().strftime("%Y-%m-%d")
 
     fig, ax = plt.subplots(figsize=(10, 5))
