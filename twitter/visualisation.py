@@ -19,10 +19,21 @@ def make_density_video(filename='output.mp4', fps=30, duration=5):
     # Use the loaded data for visualization
     data = np.array(achievements_data)
     sns.set(style="whitegrid")
+    
+    # Calculate the number of frames
+    num_frames = duration * fps
+    # Create an array to store interpolated data
+    interpolated_data = np.zeros((num_frames, len(data)))
+
+    # Interpolate data for each frame
+    for i in range(1, num_frames):
+        progress = i / num_frames
+        interpolated_data[i] = data * progress
 
     def make_frame(t):
+        frame_index = int(t * fps)
         fig, ax = plt.subplots()
-        ax.bar(dates, data, width=0.8, align='center', alpha=0.75)
+        ax.bar(dates, interpolated_data[frame_index], width=0.8, align='center', alpha=0.75)
         ax.xaxis_date()  # Interpret the x-axis values as dates
         fig.autofmt_xdate()  # Format the dates on the x-axis nicely
         ax.set_ylim(0, max(data) + 10)  # Set y-axis limit
