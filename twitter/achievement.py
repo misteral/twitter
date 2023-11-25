@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from datetime import datetime
+from datetime import datetime, timedelta
 import numpy as np
 
 def visualize_achievement(user_achievements):
@@ -35,7 +35,7 @@ def update(frame):
         plt.xticks(rotation=45)
         plt.tight_layout()
         # Set the x and y axis limits
-        plt.xlim(min(dates), max(dates))
+        plt.xlim(min(dates) - timedelta(days=1), max(dates))
         plt.ylim(min(user_counts), max(user_counts))
     else:
         plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
