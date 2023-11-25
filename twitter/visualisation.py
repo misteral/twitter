@@ -25,10 +25,13 @@ def make_density_video(filename='output.mp4', fps=30, duration=5):
     # Create an array to store interpolated data
     interpolated_data = np.zeros((num_frames, len(data)))
 
+    # Generate time points for original and interpolated data
+    original_time_points = np.linspace(0, 1, len(data))
+    interpolated_time_points = np.linspace(0, 1, num_frames)
+    
     # Interpolate data for the graph that changes from left to right
-    for i in range(1, num_frames):
-        progress = i / num_frames
-        interpolated_data[i, :int(progress * len(data))] = data[:int(progress * len(data))]
+    for i, t in enumerate(interpolated_time_points):
+        interpolated_data[i] = np.interp(t, original_time_points, data)
 
     def make_frame(t):
         frame_index = int(t * fps)
