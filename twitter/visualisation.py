@@ -15,11 +15,11 @@ with open('sample_achievements.json', 'r') as file:
 dates = [datetime.strptime(date, "%Y-%m-%d") for date in sample_data.keys()]
 dates, achievements_data = zip(*sorted(zip(dates, sample_data.values())))
 
-def make_density_video(filename='output.mp4', fps=30, duration=5):
+def make_density_video(filename='output.mp4', fps=10, duration=5):
     # Use the loaded data for visualization
     data = np.array(achievements_data)
     sns.set(style="whitegrid")
-    
+
     # Calculate the number of frames
     num_frames = duration * fps
     # Create an array to store interpolated data
@@ -28,7 +28,7 @@ def make_density_video(filename='output.mp4', fps=30, duration=5):
     # Generate time points for original and interpolated data
     original_time_points = np.linspace(0, 1, len(data))
     interpolated_time_points = np.linspace(0, 1, num_frames)
-    
+
     # Interpolate data for the graph that changes from left to right
     for i, t in enumerate(interpolated_time_points):
         interpolated_data[i] = np.interp(t, original_time_points, data)
