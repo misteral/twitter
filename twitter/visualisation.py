@@ -45,8 +45,8 @@ def fps(duration):
 def make_frame(t):
     global current_index
     # Calculate the current frame number based on time and fps
-    print(f"current_t: {t}")
-    print(f"current_index: {current_index}")
+    # print(f"current_t: {t}")
+    # print(f"current_index: {current_index}")
 
     fig, ax = plt.subplots()
 
@@ -68,7 +68,7 @@ def make_frame(t):
 
     # Set the x and y axis limits
     plt.xlim(min(df.index) - pd.Timedelta(days=1), max(df.index) + pd.Timedelta(days=1))
-    plt.ylim(min(df['Users']), max(df['Users']))
+    plt.ylim(0, max(df['Users']+100))
     # else:
     plt.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
 
