@@ -63,8 +63,17 @@ if __name__ == '__main__':
     df.sort_index(inplace=True)
 
     # Создание пропущенных дат и интерполяция значений
+def interpolate_data(df):
+    """
+    Interpolate missing dates and round values to the nearest whole number.
+
+    :param df: DataFrame with missing dates.
+    :return: DataFrame with interpolated and rounded values.
+    """
     df_resampled = df.resample('D').asfreq()  # Создание пропущенных дат
-    df_interpolated = df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
+    return df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
+
+df_interpolated = interpolate_data(df)
 
     print(df_interpolated)
 
