@@ -26,7 +26,7 @@ def interpolate_data(date_users):
     df['Date'] = pd.to_datetime(df['Date'])
     df.set_index('Date', inplace=True)
     df.sort_index(inplace=True)
-    df_resampled = df.resample('12H').asfreq()  # Создание пропущенных дат
+    df_resampled = df.resample('4H').asfreq()  # Создание пропущенных дат
     return df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
 
 def fps(duration):
