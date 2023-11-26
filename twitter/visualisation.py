@@ -7,55 +7,72 @@ import numpy as np
 
 import matplotlib.dates as mdates
 from datetime import datetime
+import pandas as pd
 
 # Load data from JSON file
 with open('/Users/aleksandrbobrov/data/agents/twitter/twitter/sample_achievements.json', 'r') as file:
-    sample_data = json.load(file)
-# Convert dates from string to datetime objects, sort them and interpolate
-dates = [datetime.strptime(date, "%Y-%m-%d") for date in sample_data.keys()]
-dates, achievements_data = zip(*sorted(zip(dates, sample_data.values())))
-# Convert dates to matplotlib date format for interpolation
-mpl_dates = mdates.date2num(dates)
+    date_users = json.load(file)
+
+
+def interpolate_data(date_users):
+    """
+    Interpolate missing dates and round values to the nearest whole number.
+
+    :param date_users: Dictionary with dates as keys and user counts as values.
+    :return: DataFrame with interpolated and rounded values.
+    """
+    df = pd.DataFrame(list(date_users.items()), columns=['Date', 'Users'])
+    df['Date'] = pd.to_datetime(df['Date'])
+    df.set_index('Date', inplace=True)
+    df.sort_index(inplace=True)
+    df_resampled = df.resample('D').asfreq()  # Создание пропущенных дат
+    return df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
+
+def visualization(df_interpolated):
+    plt.figure(figsize=(10, 5))
+    plt.plot(df_interpolated.index, df_interpolated['Users'], marker='o')
+    plt.title('Interpolated User Data Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Number of Users')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
 def make_density_video(filename='output.mp4', fps=2, duration=5):
     # Use the loaded data for visualization
-    data = np.array(achievements_data)
-    sns.set(style="whitegrid")
+    # frames = fps * duration
+    # df = interpolate_data(date_users)
+    # sns.set(style="whitegrid")
 
-    # Calculate the number of frames
-    # num_frames = duration * fps
-    # # Create arrays to store interpolated data
-    # interpolated_data = np.zeros(num_frames)
-    # interpolated_dates = np.zeros(num_frames)
 
-    # # Generate time points for original and interpolated data
-    # original_time_points = np.linspace(0, 1, len(data))
-    # interpolated_time_points = np.linspace(0, 1, num_frames)
+    def make_frame(t):
+        frame_index = len(df)
+        print(f"current_frame: {current_frame}")
+        fig, ax = plt.subplots()
 
-    # # Interpolate data and dates for the graph that changes from left to right
-    # for i, t in enumerate(interpolated_time_points):
-    #     interpolated_data[i] = np.interp(t, original_time_points, data)
-    #     interpolated_dates[i] = np.interp(t, original_time_points, mpl_dates)
+        data = df.iloc[0:current_frame]
 
-    # print(f"numbers: {interpolated_data}")
-    # print(f"dates: {mdates.num2date(interpolated_dates)}")
-    # def make_frame(t):
-    #     frame_index = int(t * fps)
-    #     fig, ax = plt.subplots()
-    #     # Convert interpolated dates back to datetime for plotting
-    #     plot_dates = mdates.num2date(interpolated_dates[:frame_index])
-    #     # Ensure that the length of plot_dates and the slice of interpolated_data match
-    #     ax.plot(plot_dates[:frame_index], interpolated_data[frame_index, :frame_index], marker='', color='purple', linewidth=2)
-    #     # Print data for the current frame
-    #     print(f"Frame {frame_index}: {interpolated_data[frame_index, :frame_index]}")
-    #     ax.xaxis_date()  # Interpret the x-axis values as dates
-    #     fig.autofmt_xdate()  # Format the dates on the x-axis nicely
-    #     ax.set_xlim(dates[0], dates[-1])  # Set x-axis limit to show all dates
-    #     ax.set_ylim(0, max(data) + 10)  # Set y-axis limit
-    #     plt.close(fig)
-    #     return mplfig_to_npimage(fig)
+        # Convert interpolated dates back to datetime for plotting
+        # plot_dates = mdates.num2date(interpolated_dates[:frame_index])
+        # Ensure that the length of plot_dates and the slice of interpolated_data match
+        ax.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
+        # # Print data for the current frame
+        # print(f"Frame {frame_index}: {interpolated_data[frame_index, :frame_index]}")
+        # ax.xaxis_date()  # Interpret the x-axis values as dates
+        # fig.autofmt_xdate()  # Format the dates on the x-axis nicely
+        # ax.set_xlim(dates[0], dates[-1])  # Set x-axis limit to show all dates
+        # ax.set_ylim(0, max(data) + 10)  # Set y-axis limit
+        # plt.close(fig)
+        print(f"current_frame: {current_frame}")
+        current_frame = current_frame + 1
+        return mplfig_to_npimage(fig)
 
-    # animation = VideoClip(make_frame, duration=duration)
-    # animation.write_videofile(filename, fps=fps)
+    current_frame = 0
+    animation = VideoClip(make_frame, duration=duration)
+    animation.write_videofile(filename, fps=fps)
+
 if __name__ == "__main__":
+
+    df = interpolate_data(date_users)
     make_density_video()
+    # visualization(df)
