@@ -39,4 +39,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-If you have any questions or feedback, please contact Aleksandr Bobrov at mister-al@ya.ru.
+Follow me on twitter at @al_bobrov for more stuff like this.

@@ -10,21 +10,12 @@ from datetime import datetime
 import pandas as pd
 
 # Load data from JSON file
-with open('/Users/aleksandrbobrov/data/agents/twitter/twitter/sample_achievements.json', 'r') as file:
+with open('/Users/aleksandrbobrov/data/agents/twitter/twitter/twitter_users.json', 'r') as file:
     date_users = json.load(file)
 
 current_index = 0
 
 def interpolate_data(date_users):
-    """
-    Interpolate missing dates in the dataset and round user counts to the nearest whole number.
-
-    Args:
-        date_users (dict): A dictionary with dates as keys and user counts as values.
-
-    Returns:
-        pandas.DataFrame: A DataFrame with dates as the index, interpolated and rounded user counts.
-    """
     """
     Interpolate missing dates and round values to the nearest whole number.
 
@@ -109,8 +100,6 @@ def make_density_video(filename='output.mp4'):
 if __name__ == "__main__":
     current_date = datetime.now().strftime("%Y-%m-%d")
     df = interpolate_data(date_users)
-    duration = 5
+    duration = 5 # clip duration
     fps = len(df)/duration
-    # print(df)
     make_density_video()
-    # visualization(df)
