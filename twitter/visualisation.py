@@ -67,7 +67,7 @@ def make_frame(t):
     plt.tight_layout()
 
     # Set the x and y axis limits
-    plt.xlim(min(df.index), max(df.index))
+    plt.xlim(min(df.index) - pd.Timedelta(days=1), max(df.index) + pd.Timedelta(days=1))
     plt.ylim(min(df['Users']), max(df['Users']))
     # else:
     plt.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
