@@ -48,15 +48,18 @@ def make_frame(t):
     # print(f"current_t: {t}")
     # print(f"current_index: {current_index}")
 
-    plt.style.use('seaborn-whitegrid')  # Use seaborn style for better aesthetics
+    sns.set(style="whitegrid")  # Set the seaborn style
     fig, ax = plt.subplots(figsize=(12, 6))
 
     # Ensure we do not exceed the length of the dataframe
     data = df.iloc[0:current_index + 1]
     current_index = min(current_index + 1, len(df) - 1)
 
-    # Plot the data using Matplotlib directly
-    ax.plot(data.index, data['Users'], color='purple', marker='o', linewidth=2.5)
+    # Initialize an empty plot with seaborn lineplot for better visuals
+    sns.lineplot(data=df.iloc[0:0], x='Date', y='Users', ax=ax, color='skyblue', marker='o', linewidth=2.5)
+
+    # Update plot with the current data
+    sns.lineplot(data=data, x=data.index, y='Users', ax=ax, color='purple', marker='o', linewidth=2.5)
 
     # Set the title and labels with larger fonts
     ax.set_title(f'Twitter User Growth Visualization - {current_date}', fontsize=18, fontweight='bold')
