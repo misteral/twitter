@@ -1,6 +1,8 @@
-# Twitter Data Visualization Project
+# Twitter Users Visualization Project
 
 This project is designed to visualize Twitter user growth over time using a dataset of user counts. It includes a Python script that processes the data, interpolates missing values, and generates a video visualization of the user growth.
+
+<video src="output.mp4" controls title="Title"></video>
 
 ## Installation
 
