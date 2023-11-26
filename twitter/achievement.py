@@ -21,7 +21,6 @@ def interpolate_data(date_users):
     return df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
 
 
-
 # Example usage:
 if __name__ == '__main__':
     # Define current_date at the module level
@@ -37,8 +36,8 @@ if __name__ == '__main__':
 
     df_interpolated = interpolate_data(date_users)
 
-    print(df_interpolated)
-    
+    # print(df_interpolated)
+
     # Plotting the interpolated data
     plt.figure(figsize=(10, 5))
     plt.plot(df_interpolated.index, df_interpolated['Users'], marker='o')
