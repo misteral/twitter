@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
     # Создание пропущенных дат и интерполяция значений
     df_resampled = df.resample('D').asfreq()  # Создание пропущенных дат
-    df_interpolated = df_resampled.interpolate(method='time')  # Интерполяция значений
+    df_interpolated = df_resampled.interpolate(method='nearest')  # Интерполяция значений
 
     print(df_interpolated)
 
