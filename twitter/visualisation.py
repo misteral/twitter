@@ -46,11 +46,14 @@ def make_density_video(filename='output.mp4', fps=2, duration=5):
 
 
     def make_frame(t):
-        frame_index = len(df)
-        print(f"current_frame: {current_frame}")
+        # Calculate the current frame number based on time and fps
+        current_frame = int(t * fps)
         fig, ax = plt.subplots()
 
-        data = df.iloc[0:current_frame]
+        # Ensure we do not exceed the length of the dataframe
+        current_frame = min(current_frame, len(df) - 1)
+
+        data = df.iloc[0:current_frame + 1]
 
         # Convert interpolated dates back to datetime for plotting
         # plot_dates = mdates.num2date(interpolated_dates[:frame_index])
@@ -63,11 +66,10 @@ def make_density_video(filename='output.mp4', fps=2, duration=5):
         # ax.set_xlim(dates[0], dates[-1])  # Set x-axis limit to show all dates
         # ax.set_ylim(0, max(data) + 10)  # Set y-axis limit
         # plt.close(fig)
-        print(f"current_frame: {current_frame}")
-        current_frame = current_frame + 1
+        # No need to manually increment current_frame as it's calculated each time make_frame is called
         return mplfig_to_npimage(fig)
 
-    current_frame = 0
+    # Remove the current_frame initialization as it's no longer needed outside make_frame
     animation = VideoClip(make_frame, duration=duration)
     animation.write_videofile(filename, fps=fps)
 
