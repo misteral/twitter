@@ -43,9 +43,8 @@ def fps(duration):
     return int(len(df)/duration)
 
 def make_frame(t):
+    global current_index
     # Calculate the current frame number based on time and fps
-
-    # current_index =
     print(f"current_t: {t}")
     print(f"current_index: {current_index}")
 
