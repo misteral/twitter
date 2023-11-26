@@ -29,27 +29,15 @@ def interpolate_data(date_users):
     df_resampled = df.resample('12H').asfreq()  # Создание пропущенных дат
     return df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
 
-def visualization(df_interpolated):
-    plt.figure(figsize=(10, 5))
-    plt.plot(df_interpolated.index, df_interpolated['Users'], marker='o')
-    plt.title('Interpolated User Data Over Time')
-    plt.xlabel('Date')
-    plt.ylabel('Number of Users')
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
-
 def fps(duration):
     return int(len(df)/duration)
 
 def make_frame(t):
     global current_index
-    # Calculate the current frame number based on time and fps
-    # print(f"current_t: {t}")
-    # print(f"current_index: {current_index}")
 
     sns.set(style="whitegrid")  # Set the seaborn style
     fig, ax = plt.subplots(figsize=(12, 6))
+    plt.xticks(rotation=45)
 
     # Ensure we do not exceed the length of the dataframe
     data = df.iloc[0:current_index + 1]
