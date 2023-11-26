@@ -38,6 +38,16 @@ if __name__ == '__main__':
     df_interpolated = interpolate_data(date_users)
 
     print(df_interpolated)
+    
+    # Plotting the interpolated data
+    plt.figure(figsize=(10, 5))
+    plt.plot(df_interpolated.index, df_interpolated['Users'], marker='o')
+    plt.title('Interpolated User Data Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Number of Users')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
     # Convert string dates to datetime64 for proper sorting and plotting
     # dates = np.array(sorted(sample_achievements.keys()), dtype='datetime64')
