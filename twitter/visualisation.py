@@ -55,18 +55,8 @@ def make_density_video(filename='output.mp4', fps=2, duration=5):
 
         data = df.iloc[0:current_frame + 1]
 
-        # Convert interpolated dates back to datetime for plotting
-        # plot_dates = mdates.num2date(interpolated_dates[:frame_index])
-        # Ensure that the length of plot_dates and the slice of interpolated_data match
         ax.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
-        # # Print data for the current frame
-        # print(f"Frame {frame_index}: {interpolated_data[frame_index, :frame_index]}")
-        # ax.xaxis_date()  # Interpret the x-axis values as dates
-        # fig.autofmt_xdate()  # Format the dates on the x-axis nicely
-        # ax.set_xlim(dates[0], dates[-1])  # Set x-axis limit to show all dates
-        # ax.set_ylim(0, max(data) + 10)  # Set y-axis limit
-        # plt.close(fig)
-        # No need to manually increment current_frame as it's calculated each time make_frame is called
+
         return mplfig_to_npimage(fig)
 
     # Remove the current_frame initialization as it's no longer needed outside make_frame
