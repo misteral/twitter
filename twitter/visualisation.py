@@ -48,30 +48,34 @@ def make_frame(t):
     # print(f"current_t: {t}")
     # print(f"current_index: {current_index}")
 
-    fig, ax = plt.subplots()
+    sns.set(style="whitegrid")  # Set the seaborn style
+    fig, ax = plt.subplots(figsize=(12, 6))
 
     # Ensure we do not exceed the length of the dataframe
-
     data = df.iloc[0:current_index + 1]
+    current_index = min(current_index + 1, len(df) - 1)
 
-    if current_index > len(df):
-        current_index = min(current_index, len(df) - 1)
-    else:
-        current_index = current_index + 1
-    # if current_frame == 0:
-    plt.plot([], [], color='skyblue', marker='o')  # Initialize an empty plot
-    plt.xlabel('Date')
-    plt.ylabel('Number of Users')
-    plt.title(f'Twitter Achievements Visualization - {current_date}')
+    # Initialize an empty plot with seaborn lineplot for better visuals
+    sns.lineplot(data=df.iloc[0:0], x='Date', y='Users', ax=ax, color='skyblue', marker='o', linewidth=2.5)
+
+    # Update plot with the current data
+    sns.lineplot(data=data, x=data.index, y='Users', ax=ax, color='purple', marker='o', linewidth=2.5)
+
+    # Set the title and labels with larger fonts
+    ax.set_title(f'Twitter User Growth Visualization - {current_date}', fontsize=18, fontweight='bold')
+    ax.set_xlabel('Date', fontsize=14)
+    ax.set_ylabel('Number of Users', fontsize=14)
+
+    # Improve the time representation on x-axis
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     plt.xticks(rotation=45)
-    plt.tight_layout()
 
     # Set the x and y axis limits
-    plt.xlim(min(df.index) - pd.Timedelta(days=1), max(df.index) + pd.Timedelta(days=1))
-    plt.ylim(0, max(df['Users']+100))
-    # else:
-    plt.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
+    ax.set_xlim(min(df.index) - pd.Timedelta(days=1), max(df.index) + pd.Timedelta(days=1))
+    ax.set_ylim(0, max(df['Users']) + 100)
 
+    plt.tight_layout()
     return mplfig_to_npimage(fig)
 
 
