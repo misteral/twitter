@@ -44,6 +44,8 @@ def make_density_video(filename='output.mp4', fps=2, duration=5):
     # df = interpolate_data(date_users)
     # sns.set(style="whitegrid")
 
+    # Function to update the plot for each frame
+
 
     def make_frame(t):
         # Calculate the current frame number based on time and fps
@@ -52,10 +54,21 @@ def make_density_video(filename='output.mp4', fps=2, duration=5):
 
         # Ensure we do not exceed the length of the dataframe
         current_frame = min(current_frame, len(df) - 1)
-
         data = df.iloc[0:current_frame + 1]
 
-        ax.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
+        # if current_frame == 0:
+        plt.plot([], [], color='skyblue', marker='o')  # Initialize an empty plot
+        plt.xlabel('Date')
+        plt.ylabel('Number of Users')
+        plt.title(f'Twitter Achievements Visualization - {current_date}')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+
+        # Set the x and y axis limits
+        plt.xlim(min(df.index), max(df.index))
+        plt.ylim(min(df['Users']), max(df['Users']))
+        # else:
+        plt.plot(data.index, data['Users'], marker='', color='purple', linewidth=2)
 
         return mplfig_to_npimage(fig)
 
@@ -64,7 +77,7 @@ def make_density_video(filename='output.mp4', fps=2, duration=5):
     animation.write_videofile(filename, fps=fps)
 
 if __name__ == "__main__":
-
+    current_date = datetime.now().strftime("%Y-%m-%d")
     df = interpolate_data(date_users)
     make_density_video()
     # visualization(df)

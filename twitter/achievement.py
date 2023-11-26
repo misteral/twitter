@@ -20,21 +20,20 @@ def interpolate_data(date_users):
     df_resampled = df.resample('D').asfreq()  # Создание пропущенных дат
     return df_resampled.interpolate(method='time').round(0)  # Интерполяция значений и округление до целых чисел
 
-def make_frame(df_interpolated, frame_number):
-    """
-    Create a frame for the animation showing the graph up to the given frame number.
-
-    :param df_interpolated: DataFrame with interpolated user data.
-    :param frame_number: Index of the frame to plot up to.
-    """
-    plt.figure(figsize=(10, 5))
-    plt.plot(df_interpolated.index[:frame_number + 1], df_interpolated['Users'][:frame_number + 1], marker='o')
-    plt.title('Interpolated User Data Over Time')
-    plt.xlabel('Date')
-    plt.ylabel('Number of Users')
-    plt.grid(True)
-    plt.tight_layout()
-    return plt
+# Function to update the plot for each frame
+def update(frame):
+    if frame == 0:
+        plt.plot([], [], color='skyblue', marker='o')  # Initialize an empty plot
+        plt.xlabel('Date')
+        plt.ylabel('Number of Users')
+        plt.title(f'Twitter Achievements Visualization - {current_date}')
+        plt.xticks(rotation=45)
+        # plt.tight_layout()
+        # Set the x and y axis limits
+        # plt.xlim(np.datetime64(min(dates), 'D') - np.timedelta64(1, 'D'), np.datetime64(max(dates), 'D') + np.timedelta64(1, 'D'))
+        # plt.ylim(min(user_counts), max(user_counts))
+    else:
+        plt.plot(dates[:frame], user_counts[:frame], color='skyblue', marker='o')
 
 
 # Example usage:
@@ -51,11 +50,6 @@ if __name__ == '__main__':
     }
 
     df_interpolated = interpolate_data(date_users)
-
-    # Define the update function for animation
-    def update(frame_number):
-        plt.clf()  # Clear the current figure
-        make_frame(df_interpolated, frame_number)
 
     # Create the figure for the animation
     fig, ax = plt.subplots(figsize=(10, 5))
